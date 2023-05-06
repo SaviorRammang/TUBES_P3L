@@ -74,9 +74,11 @@ import axios from "axios";
           .then((response) => {
             console.log(response);
                 this.isLoading = false;
-                localStorage.setItem("id", response.data.data.id);
+                localStorage.setItem("id", response.data.data.user.id);
+                console.log(response.data.data.user.id);
                 localStorage.setItem("token", response.data.token);
-                localStorage.setItem("role", response.data.data.role);
+                localStorage.setItem("role", response.data.data.user.role);
+                localStorage.setItem("dataPegawai", JSON.stringify(response.data.data.pegawai));
                 this.error_message = response.data.message;
                 this.color = "green";
                 this.snackbar = true;
@@ -102,6 +104,8 @@ import axios from "axios";
               this.load = true;
               // this.$toastr.error(error.response.data.message);
               alert("Email atau Password Salah")
+              location.reload();
+
               // this.load = false;
             });
       }

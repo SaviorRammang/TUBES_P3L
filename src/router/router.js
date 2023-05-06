@@ -51,6 +51,11 @@ const router = new VueRouter({
             name: "EditMember",
         },
       
+        {
+          path: "/kasir/member/transaksi-deposit-uang",
+          component: () => import("@/views/kasir/transaksi-deposit-uang.vue"),
+          name: "transaksi-deposit-uang",
+      },
         // {
         //   path: "/kasir/member/mencetakMemberCard",
         //   component: ()=> import("@/views/kasir/mencetakMemberCard.vue"),

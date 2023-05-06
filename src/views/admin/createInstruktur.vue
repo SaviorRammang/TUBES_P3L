@@ -1,6 +1,6 @@
 <template>
     <div>
-      <div style="height: 500px">
+      <div style="height: 500px" class="instruktur">
         <v-sheet class="mx-auto mt-15" style="padding:50px" max-width="800" color="white" elevation="10">
           <form @submit.prevent="createInstruktur">
             
@@ -134,5 +134,9 @@
     },
   };
   </script>
+
   <style>
+  .instruktur{
+    background: url('https://i.pinimg.com/564x/f2/bb/d3/f2bbd3adc6255299103e5620ed475ec4.jpg');
+  }
   </style>

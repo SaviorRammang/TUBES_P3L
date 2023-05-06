@@ -38,8 +38,25 @@
             > DELETE
           </v-btn>
           
-          <!-- Button Cetak Member Card-->
-          <!-- <v-btn color="red" outlined @click="dialogMember(item)">Cetak Card Member</v-btn> -->
+          <!--Dialog Confirm-->
+          <v-dialog
+            v-model="dialogConfirm"
+            persistent 
+            max-width="420px"
+          >
+          <v-card
+            color="white"
+          >
+          <v-card-title>
+            <span class="headline">Ingin Menghapus Instruktur ?</span>
+          </v-card-title>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="green" text @click="dialogConfirm = false"> Cancel </v-btn>
+            <v-btn color="red darken-1" text @click="deleteData(item.id)"> Delete </v-btn>
+          </v-card-actions>
+            </v-card>
+          </v-dialog>
           
         </template>
       </v-data-table>
@@ -58,6 +75,8 @@ export default {
    
     data () {
       return {
+        snackbar:false,
+        dialogConfirm: '',
         color: '',
         search: '',
         headers: [
@@ -76,6 +95,7 @@ export default {
 
           
         ],
+        deleteId: '',
         dataInstruktur : ref([]),
         // member : {}
         // router: useRouter(),
@@ -96,16 +116,40 @@ export default {
             this.$router.push({name: 'EditInstruktur', query : item})
         },
 
-        async deleteHandler(id){
-            try{
-                const url = `http://127.0.0.1:8000/api/instruktur/${id}`
-                const request = await axios.delete(url);
-                alert(request.data.message)
-                this.getDataInstruktur();
-            }catch{
-                alert('Gagal');
-            }
+        deleteHandler(id){
+            // try{
+            //     const url = `http://127.0.0.1:8000/api/instruktur/${id}`
+            //     const request = await axios.delete(url);
+            //     alert(request.data.message)
+            //     this.getDataInstruktur();
+            // }catch{
+            //     alert('Gagal');
+            // }
+            this.deleteId = id;
+            this.dialogConfirm = true;
         },
+
+        deleteData(id) {
+          console.log(id)
+          axios
+            .delete(`http://127.0.0.1:8000/api/instruktur/${id}`)
+              .then((response) => {
+                this.error_message = response.data.message;
+                this.color = "green";
+                this.snackbar = true;
+                // this.load = false;
+                // this.close();
+                this.dialogConfirm = false;
+                this.getDataInstruktur();
+                // this.type = "Tambah";
+            })
+          .catch((error) => {
+            this.error_message = error.response.data.message;
+            this.color = "red";
+            this.snackbar = true;
+            // this.load = false;
+          });
+      },
         
         createInstruktur(item){
             console.log("Gagal")

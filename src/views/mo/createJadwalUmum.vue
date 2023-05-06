@@ -1,6 +1,6 @@
 <template>
     <div>
-      <div style="height: 500px">
+      <div style="height: 470px" class="jadwal">
         <v-sheet class="mx-auto mt-15" style="padding:50px" max-width="800" color="white" elevation="10">
           <form @submit.prevent="createJadwal">
             
@@ -132,7 +132,6 @@
                 console.log(error.response.data)
         })
     }
-
       onMounted(() => {
         getAllData()
       })
@@ -167,5 +166,9 @@
 
 
   </script>
+
   <style>
+  .jadwal{
+    background: url('https://i.pinimg.com/564x/24/f3/24/24f324d2d472e39067179483bb1b6604.jpg');
+  }
   </style>

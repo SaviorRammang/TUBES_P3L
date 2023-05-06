@@ -1,9 +1,12 @@
 <template>
   <!-- <div> -->
-    <div>
+    <div class="member">
       <v-card>
+        
         <v-card-title>
-          Data Member
+          <v-list-item-avatar color="darkgrey">
+          <img src="https://i.pinimg.com/564x/65/70/7d/65707df9bf6745c6cb950a22ff5295b9.jpg" />
+        </v-list-item-avatar>
         <v-spacer></v-spacer>
         <v-text-field
         v-model="search"
@@ -13,8 +16,10 @@
         hide-details
         ></v-text-field>
 
-          <v-spacer></v-spacer>
-          <v-btn color="black" outlined @click="createMember(item)">Register Member</v-btn>
+      <v-spacer></v-spacer>
+      <v-btn color="black" outlined @click="createMember(item)">
+        <v-icon color="black">mdi-account-plus</v-icon>
+      </v-btn>
 
       </v-card-title>
       <v-data-table
@@ -23,8 +28,6 @@
         :search="search"
         >
         <template v-slot:[`item.actions`]="{item}">
-          <!-- this.$router.push('/member') -->
-          <!-- :to="({name : 'EditMember'}) -->
           
           <v-btn 
             icon small class="mr-2"
@@ -36,13 +39,73 @@
           <v-btn
             icon small class="mr-2"
             color="red" 
-            @click="deleteHandler(item.id)"
+            @click="deleteHandler(item.id_member)"
             >
             <v-icon color="red">mdi-delete</v-icon>
           </v-btn>
-          
+
           <!-- Button Cetak Member Card-->
-          <v-btn color="brown" outlined @click="dialogMember(item)">Cetak Card Member</v-btn>
+          <v-btn icon small calss="mr-2"  @click="dialogMember(item)">
+            <v-icon color="black">mdi-printer</v-icon>
+          </v-btn>
+
+          <v-dialog
+            v-model="dialogConfirm2"
+            persistent 
+            max-width="420px"
+          >
+          <v-card
+            color="white"
+          >
+          <v-card-title>
+            <span class="headline">Ingin Reset Password Member ?</span>
+          </v-card-title>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="green" text @click="dialogConfirm2 = false"> Cancel </v-btn>
+            <v-btn color="red darken-1" text @click="resetPassword(item.id_member)"> Reset </v-btn>
+          </v-card-actions>
+            </v-card>
+          </v-dialog>
+
+          <v-btn
+            icon small class="mr-2"
+            color="red" 
+            @click="resetHandler(item.id_member)"
+            >
+            <v-icon color="red">mdi-lock-reset</v-icon>
+          </v-btn>
+
+          <v-btn
+            icon small class="mr-2"
+            color="red" 
+            @click="transaksiHandler(item)"
+            >Transaksi
+            <!-- <v-icon color="red">mdi-lock-reset</v-icon> -->
+          </v-btn>
+
+
+          <!-- Dialog Confirm1 Hapus Member -->
+          <v-dialog
+            v-model="dialogConfirm"
+            persistent 
+            max-width="420px"
+          >
+          <v-card
+            color="white"
+          >
+          <v-card-title>
+            <span class="headline">Ingin Menghapus Member ?</span>
+          </v-card-title>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="green" text @click="dialogConfirm = false"> Cancel </v-btn>
+            <v-btn color="red darken-1" text @click="deleteData(item.id_member)"> Delete </v-btn>
+          </v-card-actions>
+            </v-card>
+          </v-dialog>
+          
+          
           
         </template>
       </v-data-table>      
@@ -65,19 +128,19 @@
 
             <v-col cols="12">
               <v-text-field
-                v-model="member.id"
+                v-model="member.id_member"
                 label="ID Member"
                 required
                 ></v-text-field>
             </v-col>
 
-            <v-col cols="12">
+            <!-- <v-col cols="12">
               <v-text-field
                 v-model="member.nomor_member"
                 label="ID Member"
                 required
                 ></v-text-field>
-            </v-col>
+            </v-col> -->
             
             <v-col cols="12">
               <v-text-field
@@ -151,7 +214,7 @@
             
             <v-btn color="blue" 
               outlined 
-              @click="cancleCetak(item)"
+              @click="cancelCetak(item)"
               >Cancel</v-btn>
 
             </v-row>
@@ -171,6 +234,7 @@
           </v-card-text>
         </v-card>
       </v-dialog>
+      <v-snackbar v-model="snackbar" :color="color" timeout="2000" bottom>{{ error_message }} </v-snackbar>
     </div>
   </template>
 
@@ -186,7 +250,11 @@ import { jsPDF } from "jspdf";
     data () {
       return {
         // isDisabled: true,
+        dialogConfirm3: false,
+        dialogConfirm2: false,
+        dialogConfirm: false,
         dialog: false,
+        snackbar: false,
         color: '',
         search: '',
         headers: [
@@ -194,9 +262,9 @@ import { jsPDF } from "jspdf";
             text: 'ID Member',
             align: 'start',
             sortable: false,
-            value: 'id',
+            value: 'id_member',
           },          
-          { text: 'Nomor Member', value: 'nomor_member' },
+          // { text: 'Nomor Member', value: 'nomor_member' },
           { text: 'Nama Member', value: 'nama_member' },
           { text: 'Email Member', value: 'email_member' },
           { text: 'Username Member', value: 'username_member' },
@@ -209,6 +277,8 @@ import { jsPDF } from "jspdf";
 
           
         ],
+        resetId: '',
+        deletId: '',
         dataMember : ref([]),
         member : {}
         // router: useRouter(),
@@ -223,23 +293,78 @@ import { jsPDF } from "jspdf";
             this.dataMember=request.data.data
 
         },
+        resetHandler(id_member){
+          console.log(id_member);
+          this.resetId = id_member;
+          this.dialogConfirm2 = true;
+        },
+
+        resetPassword(id_member){
+          console.log(id_member)
+            axios
+            .put(`http://127.0.0.1:8000/api/reset/${id_member}`)
+              .then((response) => {
+                this.error_message = response.data.message;
+                this.color = "green";
+                this.snackbar = true;
+                this.dialogConfirm2 = false;
+                // this.load = false;
+                // this.close();
+                this.getDataMember();
+                // this.type = "Tambah";
+            })
+          .catch((error) => {
+            this.error_message = error.response.data.message;
+            this.color = "red";
+            this.snackbar = true;
+            // this.snackbar = true;
+            // this.load = false;
+          });
+        },
         
         editHandler(item){
-            console.log('test')
             console.log(item)
             this.$router.push({name: 'EditMember', query : item})
         },
-
-        async deleteHandler(id){
-            try{
-                const url = `http://127.0.0.1:8000/api/member/${id}`
-                const request = await axios.delete(url);
-                alert(request.data.message)
-                this.getDataMember();
-            }catch{
-                alert('Gagal');
-            }
+        transaksiHandler(item){
+          console.log(item)
+          this.$router.push({name: 'transaksi-deposit-uang', query : item})
         },
+
+        deleteHandler(id_member){
+            // try{
+            //     const url = `http://127.0.0.1:8000/api/member/${id}`
+            //     const request = await axios.delete(url);
+            //     alert(request.data.message)
+            //     this.getDataMember();
+            // }catch{
+            //     alert('Gagal');
+            // }
+            this.deleteId = id_member;
+            this.dialogConfirm = true;
+        },
+
+        deleteData(id_member) {
+          console.log(id_member)
+            axios
+            .delete(`http://127.0.0.1:8000/api/member/${id_member}`)
+              .then((response) => {
+                this.error_message = response.data.message;
+                this.color = "green";
+                this.dialogConfirm = false;
+                this.snackbar = true;
+                // this.load = false;
+                // this.close();
+                this.getDataMember();
+                // this.type = "Tambah";
+            })
+          .catch((error) => {
+            this.error_message = error.response.data.message;
+            this.color = "red";
+            this.snackbar = true;
+            // this.load = false;
+          });
+      },
 
         createMember(item){
             console.log('Gagal')
@@ -278,7 +403,7 @@ import { jsPDF } from "jspdf";
                 doc.text("MEMBER CARD", 10, 30, null, null, "left");
                 doc.setFontSize(12);
                 doc.setFont(undefined,"normal");
-                doc.text(`Member ID : ${this.member['nomor_member']}`, 10, 40, null, null, "left");
+                doc.text(`Member ID : ${this.member['id_member']}`, 10, 40, null, null, "left");
 
                 // Mengatur posisi dan ukuran teks untuk nama, alamat, dan nomor telepon
                 doc.setFontSize(12);
@@ -296,14 +421,15 @@ import { jsPDF } from "jspdf";
                 doc.text(this.member['no_telp_member'], 40, 70  );
 
                 // Menyimpan dokumen ke dalam PDF
-                doc.save(`${this.member['nomor_member']}.pdf`);
+                doc.save(`${this.member['id_member']}.pdf`);
               
         },
 
-        cancleCetak(item){
+        cancelCetak(item){
           console.log(item)
           console.log("Error")
-          this.member = this.$router.push({name: 'MemberView'})
+          this.dialog = false;
+          // this.member = this.$router.push({name: 'MemberView'})
             // router.push({name: "MemberView"})
         }
 
@@ -313,3 +439,17 @@ import { jsPDF } from "jspdf";
     }
 }
 </script>
+<style scoped>
+  .member {
+    background: url('https://i.pinimg.com/564x/65/70/7d/65707df9bf6745c6cb950a22ff5295b9.jpg');
+    /* background: linear-gradient(
+      to right,
+      rgba(3, 12, 41, 0.75),
+      rgba(5, 11, 31, 0.65)
+    ); */
+  }
+  .memberstyle{
+    opacity: 0.8;
+  }
+  
+  </style>

@@ -1,4 +1,5 @@
 <template>
+  <div class="edit">
     <v-form
       ref="form"
       v-model="valid"
@@ -6,10 +7,10 @@
     >
 
     <v-text-field
-        v-model="inputDataMember.id"
-        label="ID Instruktur"
+        v-model="inputDataMember.id_member"
+        label="ID Member"
         required
-        disabled ="isDisabled"
+        disabled = "isDisabled"
       ></v-text-field>
 
       <v-text-field
@@ -77,7 +78,8 @@
       >
         Reset Validation
       </v-btn> -->
-    </v-form>
+      </v-form>
+    </div>
   </template>
 
 <script>
@@ -85,11 +87,11 @@ import axios from 'axios'
 
 export default {
   data: () => ({
-    isDisabled: true,
+    isDisabled: false,
     valid: true,
     inputDataMember: {
-        id:'',
-        nomor_member:'',
+        id_member:'',
+        // nomor_member:'',
         nama_member: '',
         username_member:'',
         tanggal_lahir_member: '',
@@ -104,13 +106,13 @@ export default {
   methods: {
         async saveMember(){
             try{
-                const url = `http://127.0.0.1:8000/api/member/${this.inputDataMember.id}`
+                const url = `http://127.0.0.1:8000/api/member/${this.inputDataMember.id_member}`
                 const request = await axios.put(url,this.inputDataMember)
                 alert(request.data.message)
                 this.$router.push({name : 'MemberView'});
             }catch(e){
                 console.log(e)
-                alert('Error Bangg')
+                alert('Error Edit')
             }
         },
 
@@ -127,3 +129,10 @@ export default {
     }
 }
 </script>
+<style scoped>
+.edit{
+  /* width: 100%; */
+  background: url('https://i.pinimg.com/564x/e2/d7/d1/e2d7d1df42e6c2171e2a74ff5e6fc707.jpg');
+  opacity: 0.8;
+}
+</style>

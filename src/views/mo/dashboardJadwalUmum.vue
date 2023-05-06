@@ -47,9 +47,29 @@
         <VSpacer />
         <v-toolbar-items>
           <v-btn text router color = "blue" @click = "btnProfile"><v-icon>mdi-account</v-icon></v-btn>
-          <v-btn text router color = "red" @click = "btnLogout"><v-icon>mdi-power</v-icon></v-btn>
+          <v-btn text router color = "red" @click = "dialogConfirm = true"><v-icon>mdi-power</v-icon></v-btn>
         </v-toolbar-items>
       </v-app-bar>
+
+      <v-dialog
+            v-model="dialogConfirm"
+            persistent 
+            max-width="420px"
+          >
+          <v-card
+            color="white"
+          >
+          <v-card-title>
+            <span class="headline">Apakah Anda Ingin Logout ?</span>
+          </v-card-title>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="green" text @click="dialogConfirm = false"> Cancel </v-btn>
+            <v-btn color="red darken-1" text @click="btnLogout"> Logout </v-btn>
+          </v-card-actions>
+            </v-card>
+          </v-dialog>
+
       <div class="fullheigh pa-5">
         <router-view></router-view>
       </div>
@@ -62,6 +82,7 @@
     name: "DashboardJadwal",
     data() {
       return {
+        dialogConfirm: false,
         drawer: true,
         itemMO: [
           { title: "Jadwal Umum", to:"/mo/jadwal-umum", icon:"mdi-calendar"},

@@ -27,25 +27,44 @@
         <v-btn 
           color = "green" 
           outlined 
-          @click="editHandler(item)"
-          > EDIT
+          @click="dialogConfirm2 = true"
+          > 
+          <v-icon color="green">mdi-pencil</v-icon>
         </v-btn>
+
+        <!--Dialog Confirm Edit -->
+        <v-dialog
+            v-model="dialogConfirm2"
+            persistent 
+            max-width="420px"
+          >
+          <v-card
+            color="white"
+          >
+          <v-card-title>
+            <span class="headline">Ingin Mengedit Jadwal ?</span>
+          </v-card-title>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="green" text @click="dialogConfirm2 = false"> Cancel </v-btn>
+            <v-btn color="red darken-1" text @click="editHandler(item)"> Edit </v-btn>
+          </v-card-actions>
+            </v-card>
+          </v-dialog>
 
         <v-btn 
           color="red" 
           outlined 
           @click="deleteHandler(item.id)"
-          > DELETE
+          ><v-icon color="red">mdi-delete</v-icon>
         </v-btn>
         
-        <!-- Button Cetak Member Card-->
-        <!-- <v-btn color="red" outlined @click="dialogMember(item)">Cetak Card Member</v-btn> -->
-
-      <v-dialog
-        v-model="dialogConfirm"
-        persistent 
-        max-width="420px"
-    >
+        <!-- Dialog Confirm-->
+          <v-dialog
+            v-model="dialogConfirm"
+            persistent 
+            max-width="420px"
+          >
           <v-card
             color="white"
           >
@@ -74,6 +93,7 @@ export default {
  
   data () {
     return {
+      dialogConfirm2: false,
       dialogConfirm: false,
       color: '',
       search: '',
@@ -108,7 +128,7 @@ export default {
       },
       
       editHandler(item){
-          this.dialogConfirm = true;
+          // this.dialogConfirm = true;
           console.log('Gagal')
           console.log(item)
           this.$router.push({name: 'Mo-Jadwal-UmumViewEdit', query : item})
@@ -136,7 +156,7 @@ export default {
             this.error_message = response.data.message;
             this.color = "green";
             this.dialogConfirm = false;
-            // this.snackbar = true;
+            this.snackbar = true;
             // this.load = false;
             // this.close();
             this.getDataJadwalUmum();

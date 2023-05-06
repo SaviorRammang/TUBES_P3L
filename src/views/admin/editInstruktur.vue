@@ -8,7 +8,6 @@
     <v-text-field
         v-model="inputDataInstruktur.id"
         label="ID Instruktur"
-        disabled="isDisabled"
         required
       ></v-text-field>
 
@@ -21,7 +20,6 @@
       <v-text-field
         v-model="inputDataInstruktur.email_instruktur"
         label="Email Instruktur"
-        disabled="isDisabled"
         required
       ></v-text-field>
   
@@ -69,7 +67,7 @@ import axios from 'axios'
 
 export default{
   data: () => ({
-    isDisabled: true,
+    // isDisabled: true,
     valid: true,
     inputDataInstruktur: {
         id: '',
