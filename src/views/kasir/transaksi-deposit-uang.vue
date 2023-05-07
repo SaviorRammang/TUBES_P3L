@@ -98,68 +98,69 @@
   
 
   <!-- Dialog Konfirmasi Transaksi -->
-  <div class="border" >
+  <div class="border" style="border: 2px black; " >
         <!-- <button @click="generateStrukDepositUang">Cetak Struk</button> -->
         <!-- PDFFF -->
         <div  width="600px" id="printtarget" style=" display: none;  margin:500px;" class=" text-dark">
             <div width="600px" class="p-1 ">
-                <table >
-                    <tr>
-                      <td style="width: 50%;">
-                        <strong>Gofit</strong>  
-                      </td>
-                      <td>
-                        No Struk : {{ transaksiDepo.no_struk}}
-                      </td>
-                    </tr>
-                      <td>
-                        <p>Jl Centralpark No 10 Yogyakarta</p>
-                      </td>
-                      <td>
-                        Tanggal : {{ transaksiDepo.transaksi_deposit_uang.tanggal_deposit_uang }}
-                      </td>
-     
-                    <tr></tr>
-                    <tr>
-                        <td>
-                            <table>
-                                <tr style="width: 80%;">
-                                    <td><strong>Member</strong></td>
-                                    <td>:</td>
-                                    <td>{{ transaksiDepo.transaksi_deposit_uang.id_member }} / {{ transaksiDepo.siganteng }}</td>
-                                </tr>
-                                <tr>
-                                    <td >Nominal Deposit</td>
-                                    <td>:</td>
-                                    <td>Rp.{{transaksiDepo.transaksi_deposit_uang.nominal_deposit_uang}}</td>
-                                </tr>
-                                <tr>
-                                    <td>Bonus Deposit</td>
-                                    <td>:</td>
-                                    <td>Rp. {{  (transaksiDepo.transaksi_deposit_uang.bonus_deposit_uang)}}</td>
-                                </tr>
-                                <tr>
-                                    <td>Sisa Deposit</td>
-                                    <td>:</td>
-                                    <td>Rp. {{ transaksiDepo.sisa_deposit }}</td>
-                                </tr>
-                                <tr>
-                                    <td>Total Deposit</td>
-                                    <td>:</td>
-                                    <td>{{ parseInt(transaksiDepo.sisa_deposit) + parseInt(transaksiDepo.transaksi_deposit_uang.total_deposit_uang) }}</td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <!-- <td>Kasir : {{getDataPegawai().id_pegawai}}/{{ getDataPegawai().nama_pegawai }} </td> -->
-                    </tr>
-                </table>
+              
+              <table >
+                <tr>
+                  <td style="width: 50%;">
+                    <strong>Gofit</strong>  
+                  </td>
+                  <td>
+                    No Struk : {{ transaksiDepo.no_struk}}
+                  </td>
+                </tr>
+                <td>
+                  <p>Jl Centralpark No 10 Yogyakarta</p>
+                </td>
+                <td>
+                  Tanggal : {{ transaksiDepo.transaksi_deposit_uang.tanggal_deposit_uang }}
+                </td>
+                
+                <tr></tr>
+                <tr>
+                  <td>
+                    <table>
+                      <tr style="width: 80%;">
+                        <td><strong>Member</strong></td>
+                        <td>:</td>
+                        <td>{{ transaksiDepo.transaksi_deposit_uang.id_member }} / {{ transaksiDepo.siganteng }}</td>
+                      </tr>
+                      <tr>
+                        <td >Nominal Deposit</td>
+                        <td>:</td>
+                        <td>Rp.{{transaksiDepo.transaksi_deposit_uang.nominal_deposit_uang}}</td>
+                      </tr>
+                      <tr>
+                        <td>Bonus Deposit</td>
+                        <td>:</td>
+                        <td>Rp. {{  (transaksiDepo.transaksi_deposit_uang.bonus_deposit_uang)}}</td>
+                      </tr>
+                      <tr>
+                        <td>Sisa Deposit</td>
+                        <td>:</td>
+                        <td>Rp. {{ transaksiDepo.sisa_deposit }}</td>
+                      </tr>
+                      <tr>
+                        <td>Total Deposit</td>
+                        <td>:</td>
+                        <td>{{ parseInt(transaksiDepo.sisa_deposit) + parseInt(transaksiDepo.transaksi_deposit_uang.total_deposit_uang) }}</td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <!-- <td>Kasir : {{getDataPegawai().id_pegawai}}/{{ getDataPegawai().nama_pegawai }} </td> -->
+                </tr>
+              </table>
             </div>
+          </div>
         </div>
-    </div>
-  </div>
+      </div>
 </template>
 
 <script>
