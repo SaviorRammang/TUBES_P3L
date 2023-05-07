@@ -76,15 +76,6 @@
             <v-icon color="red">mdi-lock-reset</v-icon>
           </v-btn>
 
-          <v-btn
-            icon small class="mr-2"
-            color="red" 
-            @click="transaksiHandler(item)"
-            >Transaksi
-            <!-- <v-icon color="red">mdi-lock-reset</v-icon> -->
-          </v-btn>
-
-
           <!-- Dialog Confirm1 Hapus Member -->
           <v-dialog
             v-model="dialogConfirm"
@@ -326,10 +317,10 @@ import { jsPDF } from "jspdf";
             console.log(item)
             this.$router.push({name: 'EditMember', query : item})
         },
-        transaksiHandler(item){
-          console.log(item)
-          this.$router.push({name: 'transaksi-deposit-uang', query : item})
-        },
+        // transaksiHandler(item){
+        //   console.log(item)
+        //   this.$router.push({name: 'transaksi-deposit-uang', query : item})
+        // },
 
         deleteHandler(id_member){
             // try{

@@ -71,6 +71,7 @@
          kasir: [
           { title: "Member", to: "/kasir/member",icon: "mdi-account-group"},
           // { title: "ResetPassword", to: "/kasir/resetPassword",icon: "mdi-key"},
+          { title: "transaksi-deposit-uang", to: "/kasir/member/transaksi-deposit-uang", icon: "mdi-currency-usd"}
 
         ],
       };

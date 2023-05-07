@@ -1,66 +1,171 @@
 <template>
-  <form>
-    <v-text-field
+  <div>
+  
+  <form @submit.prevent="submitForm">
+
+    <v-select
       v-model="formData.id_member"
-      :error-messages="nameErrors"
-      :counter="10"
-      label="ID MEMBER"
+      :items="member"
+      item-text="id_member"
+      item-value="id_member"
+      label="ID Member"
       required
-      @input="$v.name.$touch()"
-      @blur="$v.name.$touch()"
-    ></v-text-field>
-    <v-text-field
-      v-model="formData.id_promo"
+    ></v-select>
+
+    <!-- <v-text-field
+      label = "Pegawai"
+      v-model="formData.id_pegawai"
+      :items="pegawai"
+      item-text="id_pegawai"
+      item-value="id_pegawai"
+      required
+    ></v-text-field> -->
+
+    <!-- <v-text-field
+      v-model="formData.tanggal_deposit_uang"
       :error-messages="emailErrors"
-      label="E-mail"
+      label="Tanggal"
       required
-      @input="$v.email.$touch()"
-      @blur="$v.email.$touch()"
-    ></v-text-field>
+      
+    ></v-text-field> -->
 
     <v-text-field
+      @input = 'updateNominalPromo'
       v-model="formData.nominal_deposit_uang"
-      :error-messages="emailErrors"
-      label="E-mail"
+      label="Nominal"
       required
-      @input="$v.email.$touch()"
-      @blur="$v.email.$touch()"
     ></v-text-field>
+
+    <v-select
+      v-model="formData.id_promo"
+      :items="promo"
+      item-text="nama_promo"
+      item-value="id"
+      label = "Promo"
+      required
+      disabled
+    ></v-select>
 
     
 
-    <v-select
-      v-model="select"
-      :items="items"
-      :error-messages="selectErrors"
-      label="Item"
+    <v-text-field
+      v-model="formData.bonus_deposit_uang"
+      label="Bonus"
       required
-      @change="$v.select.$touch()"
-      @blur="$v.select.$touch()"
-    ></v-select>
-    <v-checkbox
-      v-model="checkbox"
-      :error-messages="checkboxErrors"
-      label="Do you agree?"
+      disabled
+    ></v-text-field>
+
+    <v-text-field
+      v-model="formData.total_deposit_uang"
+      label="Total"
       required
-      @change="$v.checkbox.$touch()"
-      @blur="$v.checkbox.$touch()"
-    ></v-checkbox>
+      disabled
+    ></v-text-field>
+
+    <!-- @click="submit" -->
+    <!-- @click="clear"> -->
 
     <v-btn
       class="mr-4"
-      @click="submit"
-    >
+      type="submit"
+      >
       submit
     </v-btn>
-    <v-btn @click="clear">
-      clear
-    </v-btn>
+    <v-btn> 
+    clear
+  </v-btn>
+  <v-dialog
+    v-model="dialogConfirm2"
+      persistent 
+      max-width="420px"
+    >
+    <v-card
+      color="white"
+    >
+    <v-card-title>
+      <span class="headline">Konfirmasi Transaksi Anda ?</span>
+    </v-card-title>
+    <v-card-actions>
+      <v-spacer></v-spacer>
+      <v-btn color="green" text @click="dialogConfirm2 = false"> Batal </v-btn>
+      <v-btn color="red darken-1" text @click="confirmTransaction"> Lanjutkan </v-btn>
+    </v-card-actions>
+      </v-card>
+    </v-dialog>
   </form>
+
+    
+  
+
+  <!-- Dialog Konfirmasi Transaksi -->
+  <div class="border" >
+        <!-- <button @click="generateStrukDepositUang">Cetak Struk</button> -->
+        <!-- PDFFF -->
+        <div  width="600px" id="printtarget" style=" display: none;  margin:500px;" class=" text-dark">
+            <div width="600px" class="p-1 ">
+                <table >
+                    <tr>
+                      <td style="width: 50%;">
+                        <strong>Gofit</strong>  
+                      </td>
+                      <td>
+                        No Struk : {{ transaksiDepo.no_struk}}
+                      </td>
+                    </tr>
+                      <td>
+                        <p>Jl Centralpark No 10 Yogyakarta</p>
+                      </td>
+                      <td>
+                        Tanggal : {{ transaksiDepo.transaksi_deposit_uang.tanggal_deposit_uang }}
+                      </td>
+     
+                    <tr></tr>
+                    <tr>
+                        <td>
+                            <table>
+                                <tr style="width: 80%;">
+                                    <td><strong>Member</strong></td>
+                                    <td>:</td>
+                                    <td>{{ transaksiDepo.transaksi_deposit_uang.id_member }} / {{ transaksiDepo.siganteng }}</td>
+                                </tr>
+                                <tr>
+                                    <td >Nominal Deposit</td>
+                                    <td>:</td>
+                                    <td>Rp.{{transaksiDepo.transaksi_deposit_uang.nominal_deposit_uang}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Bonus Deposit</td>
+                                    <td>:</td>
+                                    <td>Rp. {{  (transaksiDepo.transaksi_deposit_uang.bonus_deposit_uang)}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Sisa Deposit</td>
+                                    <td>:</td>
+                                    <td>Rp. {{ transaksiDepo.sisa_deposit }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Total Deposit</td>
+                                    <td>:</td>
+                                    <td>{{ parseInt(transaksiDepo.sisa_deposit) + parseInt(transaksiDepo.transaksi_deposit_uang.total_deposit_uang) }}</td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <!-- <td>Kasir : {{getDataPegawai().id_pegawai}}/{{ getDataPegawai().nama_pegawai }} </td> -->
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+  </div>
 </template>
 
 <script>
 import axios from 'axios'
+import jsPDF from 'jspdf';
+import { ref } from 'vue';
 // import { response } from 'express'
 // import { validationMixin } from 'vuelidate'
 //   import { required, maxLength, email } from 'vuelidate/lib/validators'
@@ -88,6 +193,7 @@ import axios from 'axios'
         // 'total_deposit_uang',
 
     data: () => ({
+      dialogConfirm2 : false,
       name: '',
       email: '',
       select: null,
@@ -106,51 +212,80 @@ import axios from 'axios'
         bonus_deposit_uang: null,
         total_deposit_uang: null,
       },
+      transaksiDepo : ref({
+        transaksi_deposit_uang : {},
+        sisa_deposit : null,
+        no_struk : null,
+      }),
       member: null,
       pegawai: null,
       promo: null,
     }),
 
     computed: {
-      checkboxErrors () {
-        const errors = []
-        if (!this.$v.checkbox.$dirty) return errors
-        !this.$v.checkbox.checked && errors.push('You must agree to continue!')
-        return errors
-      },
-      selectErrors () {
-        const errors = []
-        if (!this.$v.select.$dirty) return errors
-        !this.$v.select.required && errors.push('Item is required')
-        return errors
-      },
-      nameErrors () {
-        const errors = []
-        if (!this.$v.name.$dirty) return errors
-        !this.$v.name.maxLength && errors.push('Name must be at most 10 characters long')
-        !this.$v.name.required && errors.push('Name is required.')
-        return errors
-      },
-      emailErrors () {
-        const errors = []
-        if (!this.$v.email.$dirty) return errors
-        !this.$v.email.email && errors.push('Must be valid e-mail')
-        !this.$v.email.required && errors.push('E-mail is required')
-        return errors
-      },
     },
 
     methods: {
-    submit () {
-        this.$v.$touch()
+    submitForm(){
+        this.dialogConfirm2 = true;
     },
-    clear () {
-        this.$v.$reset()
-        this.name = ''
-        this.email = ''
-        this.select = null
-        this.checkbox = false
-      },
+
+    confirmTransaction(){
+      //Tutup Modal 
+      this.dialogConfirm2 = false;
+      console.log(this.formData);
+      // Request Transaksi
+      axios.post('http://127.0.0.1:8000/api/transaksi_deposit_uang',{...this.formData})
+        .then((response) => {
+          // console.log(response);
+          alert(response.data.message);
+          this.transaksiDepo = response.data.data;
+          // console.log(this.transaksiDepo);
+          //Generate Struk Deposit Uang
+          this.cetakStrukDepositUang();
+        })
+        // .catch((error) =>{
+        //   // alert('Transaksi gagal, minimal deposit Rp 500.000')
+        //   // alert(error);
+        //   alert(error.response.data.message); 
+        // }
+        // )
+    },
+    cetakStrukDepositUang() {
+            console.log('cetak struk')
+            // window.jsPDF = window.jspdf.jsPDF;
+            var elementHTML = document.querySelector('#printtarget');
+            elementHTML.style.display = "block";
+            elementHTML.style.fontSize = '5px';
+
+            //Spasi
+            elementHTML.style.lineHeight = '1.2'; 
+            elementHTML.style.margin = '0';
+            elementHTML.style.padding = '0';
+            
+            let doc = new jsPDF({
+                orientation: 'l', // orientasi landscape
+                unit: 'mm', // satuan millimeter
+                format: ['300','100'], // ukuran kertas A4
+            });
+
+            doc.html(elementHTML, {
+            callback: function (doc) {
+                doc.save('struk.pdf');
+                elementHTML.style.display = "none";
+            },
+            x: 10,
+            y: 10
+            });
+            console.log('akhir dari cetak pdf')
+        },
+      // clear () {
+      //     this.$v.$reset()
+      //     this.name = ''
+      //     this.email = ''
+      //     this.select = null
+      //     this.checkbox = false
+      //   },
       getAllMember(){
           axios
             .get("http://127.0.0.1:8000/api/member", {
@@ -168,19 +303,56 @@ import axios from 'axios'
             this.promo = response.data.data
             console.log(this.promo)
           }).catch(error => {
-            console.log(error.response.data)
+            console.log(error.message);
           })
       },
       getPegawai(){
-        let pegawai = localStorage.getItem('dataPegawai');
-        return JSON.parse(pegawai)
+        let pegawaiData = localStorage.getItem('dataPegawai');
+        this.formData.id_pegawai =  JSON.parse(pegawaiData)[0].id_pegawai
+      },
+      updateNominalPromo(){
+        let localPromo = this.updatePromo();
+        // console.log(localPromo.id);
+        // if(localPromo && localPromo.id != null){
+          try{
+            console.log('masil if')
+            this.formData.id_promo = localPromo.id;
+            this.formData.bonus_deposit_uang = localPromo.bonus_promo;
+            this.formData.total_deposit_uang=  parseInt(this.formData.nominal_deposit_uang) + parseInt(localPromo.bonus_promo) ;
+          }catch{
+            this.formData.id_promo = 0;
+            this.formData.bonus_deposit_uang = 0;
+            this.formData.total_deposit_uang=  0 ;
+          }
+        // }else{
+          console.log('masil else')
+        // }
+      },
+      updatePromo(){
+        let data = this.promo;
+        let pm = null;
+        data = data.filter((dt) => dt.jenis_promo === 'Promo Reguler');
+        console.log(data);
+        data.forEach((value) =>{  
+          if(value.minimal_deposit <= this.formData.nominal_deposit_uang && (pm === null || value.minimal_deposit > pm.minimal_deposit)){
+            pm = value;
+            console.log(pm.minimal_deposit , pm.nama_promo)
+          }
+        })
+        // console.log(pm)  
+        return pm;
       },
     },
     mounted(){
       this.getAllMember()
       // this.getPegawai()
-      console.log(this.getPegawai())
+      this.getPegawai()
       this.getAllPromo()
     }
   }
 </script>
+<style>
+.border {
+  border: 4px coral;
+}
+</style>
