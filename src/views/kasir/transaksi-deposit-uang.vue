@@ -1,6 +1,5 @@
 <template>
   <div>
-  
   <form @submit.prevent="submitForm">
 
     <v-select
@@ -11,23 +10,6 @@
       label="ID Member"
       required
     ></v-select>
-
-    <!-- <v-text-field
-      label = "Pegawai"
-      v-model="formData.id_pegawai"
-      :items="pegawai"
-      item-text="id_pegawai"
-      item-value="id_pegawai"
-      required
-    ></v-text-field> -->
-
-    <!-- <v-text-field
-      v-model="formData.tanggal_deposit_uang"
-      :error-messages="emailErrors"
-      label="Tanggal"
-      required
-      
-    ></v-text-field> -->
 
     <v-text-field
       @input = 'updateNominalPromo'
@@ -98,13 +80,13 @@
   
 
   <!-- Dialog Konfirmasi Transaksi -->
-  <div class="border" style="border: 2px black; " >
+  <div class="bg light" >
         <!-- <button @click="generateStrukDepositUang">Cetak Struk</button> -->
         <!-- PDFFF -->
-        <div  width="600px" id="printtarget" style=" display: none;  margin:500px;" class=" text-dark">
+        <div  width="600px" id="printtarget" style=" display: none; margin:500px;" class=" text-dark">
             <div width="600px" class="p-1 ">
               
-              <table >
+              <table class="border">
                 <tr>
                   <td style="width: 50%;">
                     <strong>Gofit</strong>  
@@ -154,7 +136,7 @@
                 </tr>
                 <tr>
                   <td></td>
-                  <!-- <td>Kasir : {{getDataPegawai().id_pegawai}}/{{ getDataPegawai().nama_pegawai }} </td> -->
+                    <td>Kasir : {{formData.id_pegawai}}/{{ formData.nama_pegawai }} </td>
                 </tr>
               </table>
             </div>
@@ -171,27 +153,7 @@ import { ref } from 'vue';
 // import { validationMixin } from 'vuelidate'
 //   import { required, maxLength, email } from 'vuelidate/lib/validators'
 
-  export default {
-    // mixins: [validationMixin],
-
-    // validations: {
-    //   name: { required, maxLength: maxLength(10) },
-    //   email: { required, email },
-    //   select: { required },
-    //   checkbox: {
-    //     checked (val) {
-    //       return val
-    //     },
-    //   },
-    // },
-
-        // 'id_member',
-        // 'id_pegawai',
-        // 'id_promo',
-        // 'tanggal_deposit_uang',
-        // 'nominal_deposit_uang',
-        // 'bonus_deposit_uang',
-        // 'total_deposit_uang',
+export default {
 
     data: () => ({
       dialogConfirm2 : false,
@@ -206,6 +168,7 @@ import { ref } from 'vue';
       ],
       formData: {
         id_pegawai: null,
+        nama_pegawai: null,
         id_member: null,
         id_promo: null,
         tanggal_deposit_uang: null,
@@ -245,12 +208,6 @@ import { ref } from 'vue';
           //Generate Struk Deposit Uang
           this.cetakStrukDepositUang();
         })
-        // .catch((error) =>{
-        //   // alert('Transaksi gagal, minimal deposit Rp 500.000')
-        //   // alert(error);
-        //   alert(error.response.data.message); 
-        // }
-        // )
     },
     cetakStrukDepositUang() {
             console.log('cetak struk')
@@ -263,6 +220,7 @@ import { ref } from 'vue';
             elementHTML.style.lineHeight = '1.2'; 
             elementHTML.style.margin = '0';
             elementHTML.style.padding = '0';
+            
             
             let doc = new jsPDF({
                 orientation: 'l', // orientasi landscape
@@ -280,13 +238,6 @@ import { ref } from 'vue';
             });
             console.log('akhir dari cetak pdf')
         },
-      // clear () {
-      //     this.$v.$reset()
-      //     this.name = ''
-      //     this.email = ''
-      //     this.select = null
-      //     this.checkbox = false
-      //   },
       getAllMember(){
           axios
             .get("http://127.0.0.1:8000/api/member", {
@@ -308,8 +259,9 @@ import { ref } from 'vue';
           })
       },
       getPegawai(){
-        let pegawaiData = localStorage.getItem('dataPegawai');
-        this.formData.id_pegawai =  JSON.parse(pegawaiData)[0].id_pegawai
+          let pegawaiData = localStorage.getItem('dataPegawai');
+          this.formData.id_pegawai =  JSON.parse(pegawaiData)[0].id_pegawai
+          this.formData.nama_pegawai =  JSON.parse(pegawaiData)[0].nama_pegawai
       },
       updateNominalPromo(){
         let localPromo = this.updatePromo();
@@ -353,7 +305,8 @@ import { ref } from 'vue';
   }
 </script>
 <style>
-.border {
-  border: 4px coral;
+.border{
+  border: 1px solid;
+  border-color: black;
 }
 </style>

@@ -1,3 +1,4 @@
+/* eslint-disable */
 <template>
     <div>
         <v-card max>
@@ -23,36 +24,15 @@
         :search="search"
         >
         <template v-slot:[`item.actions`]="{item}">
-          
+            <!--Dialog Confirm Libur-->
+
           <v-btn 
             color = "black" 
             outlined 
-            @click="dialogConfirmLibur = true"
+            @click="buttonKonfirmasi(item)"
             > MELIBURKAN
             <!-- <v-icon color="green">mdi-pencil</v-icon> -->
           </v-btn>
-
-          <!--Dialog Confirm Libur-->
-          <v-dialog
-        v-model="dialogConfirm"
-        persistent 
-        max-width="420px"
-      >
-      <v-card
-        color="white"
-      >
-      <v-card-title>
-        <span class="headline">Ingin Meliburkan Jadwal ?</span>
-      </v-card-title>
-      <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn color="green" text @click="dialogConfirm = false"> Cancel </v-btn>
-        <v-btn color="red darken-1" text @click="generateHandler()"> Generate </v-btn>
-      </v-card-actions>
-        </v-card>
-      </v-dialog>
-          
-          
         </template>
       </v-data-table>
     </v-card>
@@ -72,7 +52,7 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn color="green" text @click="dialogConfirm = false"> Cancel </v-btn>
-        <v-btn color="red darken-1" text @click="buttonKonfirmasi()"> Libur </v-btn>
+        <v-btn color="red darken-1" text @click="generateHandler()"> Generate </v-btn>
       </v-card-actions>
         </v-card>
       </v-dialog>
@@ -83,7 +63,6 @@
   
   import {  ref } from 'vue';
   import axios from 'axios';
-import { response } from 'express';
   
   export default {
    
@@ -107,11 +86,8 @@ import { response } from 'express';
           { text: 'Aksi', value: 'actions' },
           
         ],
-        // editId: '',
-        // deleteId: '',
         dataJadwal : ref([]),
-        // member : {}
-        // router: useRouter(),
+        
         
     }
   },
@@ -144,12 +120,17 @@ import { response } from 'express';
           },
         buttonKonfirmasi(item){
           this.dialogConfirmLibur = false;
-          axios
-            .put(`http://127.0.0.1:8000/api/jadwal_harian/${item.id_jadwal_harian}`)
+          console.log(item);
+          const konfirmasi = confirm('Apakah Anda yakin ingin meliburkan jadwal ?');
+          if(konfirmasi){
+            axios
+            .put(`http://127.0.0.1:8000/api/jadwal_harian/${item.id_jadwal_harian}`,{})
             .then((response)=>{
               console.log(response)
-              
+              this.getDataJadwalHarian()
             })
+          }
+          // console.log(`http://127.0.0.1:8000/api/jadwal_harian/${item.id_jadwal_harian}`);
 
         }
 
@@ -162,3 +143,4 @@ import { response } from 'express';
     }
   }
   </script>
+  /* eslint-disable */

@@ -31,25 +31,13 @@
           
           <v-btn 
             icon small class="mr-2"
-            @click="editHandler(item)"
-            >     
-            <v-icon color="green">mdi-pencil</v-icon>          
-          </v-btn>
+            @click="transaksiHandler(item)"
+            >   Aktivasi
+            <!-- @click="dialogConfirm2 = true" -->
+        </v-btn>
 
-          <v-btn
-            icon small class="mr-2"
-            color="red" 
-            @click="deleteHandler(item.id_member)"
-            >
-            <v-icon color="red">mdi-delete</v-icon>
-          </v-btn>
-
-          <!-- Button Cetak Member Card-->
-          <v-btn icon small calss="mr-2"  @click="dialogMember(item)">
-            <v-icon color="black">mdi-printer</v-icon>
-          </v-btn>
-
-          <v-dialog
+        <!-- Dialog Confirm Transaksi -->
+        <!-- <v-dialog
             v-model="dialogConfirm2"
             persistent 
             max-width="420px"
@@ -58,46 +46,16 @@
             color="white"
           >
           <v-card-title>
-            <span class="headline">Ingin Reset Password Member ?</span>
+            <span class="headline">Ingin Aktivasi Member ?</span>
           </v-card-title>
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn color="green" text @click="dialogConfirm2 = false"> Cancel </v-btn>
-            <v-btn color="red darken-1" text @click="resetPassword(item.id_member)"> Reset </v-btn>
+            <v-btn color="red darken-1" text @click="transaksiHandler(item.id_member)"> Aktivasi </v-btn>
           </v-card-actions>
             </v-card>
-          </v-dialog>
+          </v-dialog> -->
 
-          <v-btn
-            icon small class="mr-2"
-            color="red" 
-            @click="resetHandler(item.id_member)"
-            >
-            <v-icon color="red">mdi-lock-reset</v-icon>
-          </v-btn>
-
-          <!-- Dialog Confirm1 Hapus Member -->
-          <v-dialog
-            v-model="dialogConfirm"
-            persistent 
-            max-width="420px"
-          >
-          <v-card
-            color="white"
-          >
-          <v-card-title>
-            <span class="headline">Ingin Menghapus Member ?</span>
-          </v-card-title>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="green" text @click="dialogConfirm = false"> Cancel </v-btn>
-            <v-btn color="red darken-1" text @click="deleteData(item.id_member)"> Delete </v-btn>
-          </v-card-actions>
-            </v-card>
-          </v-dialog>
-          
-          
-          
         </template>
       </v-data-table>      
       
@@ -125,14 +83,6 @@
                 ></v-text-field>
             </v-col>
 
-            <!-- <v-col cols="12">
-              <v-text-field
-                v-model="member.nomor_member"
-                label="ID Member"
-                required
-                ></v-text-field>
-            </v-col> -->
-            
             <v-col cols="12">
               <v-text-field
                 v-model="member.nama_member"
@@ -215,7 +165,57 @@
         </v-card>
       </v-dialog>
       <v-snackbar v-model="snackbar" :color="color" timeout="2000" bottom>{{ error_message }} </v-snackbar>
+    
+      <!-- Awal dari struk -->
+      <div  width="600px" id="printtarget" style=" display: none; margin:500px;" class=" text-dark">
+            <div width="600px" class="p-1 ">
+                <table class="border border-dark">
+                    <tr>
+                        <td style="width: 70%;"><strong>Gofit</strong>
+                        <p>Jl Centralpark No 10 Yogyakarta</p></td>
+                        <td>No Struk : {{ hasilTransaksi.no_struk }}</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>Tanggal : {{ hasilTransaksi.transaksi_member.tanggal_transaksi_aktivasi }}</td>
+                    </tr>
+                    <tr></tr>
+                    <tr>
+                        <td>
+                            <table>
+                                <tr style="width: 80%;">
+                                    <td><strong>Member</strong></td>
+                                    <td>:</td>
+                                    <td>{{ member.id_member }}</td>
+                                </tr>
+                                <tr>
+                                    <td >Aktivasi Tahunan</td>
+                                    <td>:</td>
+                                    <td>Rp.3.000.0000,-</td>
+                                </tr>
+                                <tr>
+                                    <td>Masa Aktif Member</td>
+                                    <td>:</td>
+                                    <td>{{ hasilTransaksi.member.tanggal_aktivasi_member }}</td>
+                                </tr>
+                                <!-- <tr>
+                                  <td></td>
+                                  <td>Kasir : {{ id_pegawai}}/ {{ nama_pegawai }}</td>
+                                </tr> -->
+                              </table>
+                            </td>
+                          </tr>
+                    <tr>
+                        <td></td>
+                        <td>Kasir :{{ id_pegawai}}/ {{ nama_pegawai }} </td>
+                    </tr>
+                    
+                </table>
+            </div>
+        </div>
     </div>
+
+    
   </template>
 
 <script>
@@ -251,16 +251,23 @@ import { jsPDF } from "jspdf";
           { text: 'Tanggal Lahir', value: 'tanggal_lahir_member' },
           { text: 'No Telp Member', value: 'no_telp_member' },
           { text: 'Alamat Member', value: 'alamat_member' },
-          { text: 'Tanggal Aktivasi', value: 'tanggal_aktivasi_member' },
+          { text: 'Tanggal Kadeluarsa', value: 'tanggal_aktivasi_member' },
           { text: 'Saldo Deposit', value: 'saldo_deposit_member' },
           { text: 'Aksi', value: 'actions'},
 
           
         ],
+        id_pegawai : null,
+        nama_pegawai : null,
         resetId: '',
         deletId: '',
         dataMember : ref([]),
-        member : {}
+        member : {},
+        hasilTransaksi : ref({
+          transaksi_member : {},
+          member : {},
+          no_struk: null,
+        })
         // router: useRouter(),
         
     }
@@ -301,47 +308,42 @@ import { jsPDF } from "jspdf";
             // this.load = false;
           });
         },
-        
-        editHandler(item){
-            console.log(item)
-            this.$router.push({name: 'EditMember', query : item})
+
+        getPegawai(){
+          let pegawaiData = localStorage.getItem('dataPegawai');
+          this.id_pegawai = JSON.parse(pegawaiData)[0].id_pegawai
+          this.nama_pegawai = JSON.parse(pegawaiData)[0].nama_pegawai
+
         },
-        // transaksiHandler(item){
-        //   console.log(item)
-        //   this.$router.push({name: 'transaksi-deposit-uang', query : item})
-        // },
+        
+        transaksiHandler(item){
+          console.log(item) 
+          const confirmAktivasi = confirm(`Apakah Anda yakin melakukan aktivasi member ${item.id_member}`);
+
+          if(confirmAktivasi){
+            axios.post('http://127.0.0.1:8000/api/transaksi_aktivasi',{
+              'id_member' : item.id_member,
+              'id_pegawai' : this.id_pegawai,
+            }).then(
+              (response) => {
+                this.member = item
+                this.hasilTransaksi = response.data.data
+                alert('berhasil melakukan transaksi')
+                this.cetakStrukAktivasi()
+                this.getDataMember();
+              }
+              ).catch(
+                // alert('gagal melakukan transaksi')
+              )
+          }
+        },
 
         deleteHandler(id_member){
             this.deleteId = id_member;
             this.dialogConfirm = true;
         },
 
-        deleteData(id_member) {
-          console.log(id_member)
-            axios
-            .delete(`http://127.0.0.1:8000/api/member/${id_member}`)
-              .then((response) => {
-                this.error_message = response.data.message;
-                this.color = "green";
-                this.dialogConfirm = false;
-                this.snackbar = true;
-                // this.load = false;
-                // this.close();
-                this.getDataMember();
-                // this.type = "Tambah";
-            })
-          .catch((error) => {
-            this.error_message = error.response.data.message;
-            this.color = "red";
-            this.snackbar = true;
-            // this.load = false;
-          });
-      },
-
-        createMember(item){
-            console.log('Gagal')
-            this.$router.push({name: 'CreateMember', query : item})
-        },
+     
 
         dialogMember(item){
             console.log(item)
@@ -349,52 +351,34 @@ import { jsPDF } from "jspdf";
             this.dialog = true;
         },
 
-        CetakStruk()
-        {
-            // console.log(this.member)
-              // console.log(this.member['ID Member'])
-            // Membuat instance dari jspdf
-              let doc = new jsPDF({
-                orientation : 'landscape',
-                unit : 'mm',
-                format : ['150','80']
-              });
-                // Mengatur posisi dan ukuran teks untuk judul
-                doc.setFontSize(18);
-                doc.setFont(undefined,"bold");
-                doc.text("GoFit", 10, 10, null, null, "left");
+        cetakStrukAktivasi() {
+            console.log('cetak struk')
+            // window.jsPDF = window.jspdf.jsPDF;
+            let elementPrint = document.querySelector('#printtarget');
+            elementPrint.style.display = "block";
+            elementPrint.style.fontSize = '5px';
 
-                // Mengatur posisi dan ukuran teks untuk alamat
-                doc.setFontSize(12);
-                doc.setFont(undefined,"normal");
-                doc.text("Jl. Centralpark No. 10 Yogyakarta", 10 , 20, null, null, "");
+            //Spasi
+            elementPrint.style.lineHeight = '1.2'; 
+            elementPrint.style.margin = '0';
+            elementPrint.style.padding = '0';
+            
+            
+            let doc = new jsPDF({
+                orientation: 'l', // orientasi landscape
+                unit: 'mm', // satuan millimeter
+                format: ['400','100'], // ukuran kertas A4
+            });
 
-                // Mengatur posisi dan ukuran teks untuk nomor member
-                doc.setFontSize(16);
-                doc.setFont(undefined,"bold");
-                doc.text("MEMBER CARD", 10, 30, null, null, "left");
-                doc.setFontSize(12);
-                doc.setFont(undefined,"normal");
-                doc.text(`Member ID : ${this.member['id_member']}`, 10, 40, null, null, "left");
-
-                // Mengatur posisi dan ukuran teks untuk nama, alamat, dan nomor telepon
-                doc.setFontSize(12);
-                doc.setFont(undefined,"normal");
-                doc.text("Nama :", 10, 50);
-                doc.setFont(undefined,"normal");
-                doc.text(this.member['nama_member'], 40, 50);
-                doc.setFont(undefined,"normal");
-                doc.text("Alamat :", 10, 60);
-                doc.setFont(undefined,"normal");
-                doc.text(this.member['alamat_member'], 40, 60); 
-                doc.setFont(undefined,"normal");
-                doc.text("Telpon :", 10, 70);
-                doc.setFont(undefined,"normal");
-                doc.text(this.member['no_telp_member'], 40, 70  );
-
-                // Menyimpan dokumen ke dalam PDF
-                doc.save(`${this.member['id_member']}.pdf`);
-              
+            doc.html(elementPrint, {
+            callback: function (doc) {
+                doc.save('struk.pdf');
+                elementPrint.style.display = "none";
+            },
+            x: 10,
+            y: 10
+            });
+            console.log('akhir dari cetak pdf')
         },
 
         cancelCetak(item){
@@ -408,6 +392,7 @@ import { jsPDF } from "jspdf";
     },
     mounted (){
         this.getDataMember();
+        this.getPegawai();
     }
 }
 </script>

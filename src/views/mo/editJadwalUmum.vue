@@ -115,10 +115,10 @@ methods: {
         axios.get('http://localhost:8000/api/instruktur')
         .then(response => {
         //assign state posts with response data
-        this.instruktur = response.data.data
-            }).catch(error => {
-            console.log(error.response.data)
-            })
+          this.instruktur = response.data.data
+        }).catch(error => {
+          console.log(error.response.data)
+        })
         axios.get('http://localhost:8000/api/kelas')
         .then(response => {
           this.kelas = response.data.data

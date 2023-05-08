@@ -86,6 +86,8 @@
         drawer: true,
         itemMO: [
           { title: "Jadwal Umum", to:"/mo/jadwal-umum", icon:"mdi-calendar"},
+          { title: "Jadwal Harian", to:"/mo/jadwal-harian/index", icon:"mdi-calendar-month"},
+
         ]
       };
     },

@@ -174,6 +174,7 @@ export default {
           console.log("Gagal")
           this.dialogConfirm = true;
           this.$router.push({name: 'Mo-Jadwal-UmumViewCreate' /*'mo/jadwal-umum/create'*/, query : item})
+          this.$router.push({name: 'Mo-Jadwal-UmumViewCreate' /*'mo/jadwal-umum/create'*/, query : item})
       }
   },
   mounted (){

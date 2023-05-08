@@ -55,7 +55,12 @@ const router = new VueRouter({
           path: "/kasir/member/transaksi-deposit-uang",
           component: () => import("@/views/kasir/transaksi-deposit-uang.vue"),
           name: "transaksi-deposit-uang",
-      },
+        },
+        {
+          path: "/kasir/member/transaksi-aktivasi",
+          component: () => import("@/views/kasir/transaksi-aktivasi.vue"),
+          name: "transaksi-aktivasi",
+        },
         // {
         //   path: "/kasir/member/mencetakMemberCard",
         //   component: ()=> import("@/views/kasir/mencetakMemberCard.vue"),
@@ -121,6 +126,11 @@ const router = new VueRouter({
             path: "/mo/jadwal-umum/edit",
             component: () => import("@/views/mo/editJadwalUmum.vue"),
             name: "Mo-Jadwal-UmumViewEdit",
+          },
+          {
+            path: "/mo/jadwal-harian/index",
+            component: () => import("@/views/mo/indexJadwalHarian.vue"),
+            name: "Mo-Jadwal-Harian",
           },
         ]
       }
