@@ -71,8 +71,9 @@
          kasir: [
           { title: "Member", to: "/kasir/member",icon: "mdi-account-group"},
           // { title: "ResetPassword", to: "/kasir/resetPassword",icon: "mdi-key"},
-          { title: "transaksi-deposit-uang", to: "/kasir/member/transaksi-deposit-uang", icon: "mdi-currency-usd"},
-          { title: "transaksi-aktivasi", to: "/kasir/member/transaksi-aktivasi", icon: "mdi-cash-multiple"},
+          { title: "Transaksi-Deposit-Uang", to: "/kasir/member/transaksi-deposit-uang", icon: "mdi-currency-usd"},
+          { title: "Transaksi-Aktivasi", to: "/kasir/member/transaksi-aktivasi", icon: "mdi-cash-multiple"},
+          { title: "Sistem-Kasir", to: "/kasir/member/sistem", icon: "mdi-account-circle-outline"},
         ],
       };
     },

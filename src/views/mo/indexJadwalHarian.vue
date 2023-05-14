@@ -3,7 +3,7 @@
     <div>
         <v-card max>
         <v-card-title>
-            Jadwal Harian 
+            <p style="font-family:serif; color:red; font-size: 1cm;"> GO FIT</p>
           <v-spacer></v-spacer>
         <v-text-field
           v-model="search"
@@ -12,11 +12,8 @@
           single-line
           hide-details
         ></v-text-field>
-  
         <v-spacer></v-spacer>
-          
           <v-btn color="blue" outlined @click="openDialogGenerate()">Generate Jadwal</v-btn>
-      
         </v-card-title>
       <v-data-table
         :headers="headers"
@@ -80,7 +77,6 @@
             value: 'id_jadwal_harian',
           },
           { text: 'Nama Instruktur', value: 'instruktur.nama_instruktur' },
-        //   { text: 'Nama Kelas', value: 'jadwal__umums.nama_kelas' },
           { text: 'Tanggal', value: 'tanggal_jadwal_harian' },
           { text: 'Status', value: 'status_jadwal_harian' },
           { text: 'Aksi', value: 'actions' },
@@ -126,6 +122,7 @@
             axios
             .put(`http://127.0.0.1:8000/api/jadwal_harian/${item.id_jadwal_harian}`,{})
             .then((response)=>{
+              alert("Berhasil Diliburkan")
               console.log(response)
               this.getDataJadwalHarian()
             })

@@ -1,12 +1,13 @@
 <template>
   <!-- <div> -->
-    <div class="member">
+    <div>
       <v-card>
         
         <v-card-title>
-          <v-list-item-avatar color="darkgrey">
+          <p style="font-family:serif; color:red; font-size: 1cm;"> GO FIT</p>
+          <!-- <v-list-item-avatar color="darkgrey">
           <img src="https://i.pinimg.com/564x/65/70/7d/65707df9bf6745c6cb950a22ff5295b9.jpg" />
-        </v-list-item-avatar>
+        </v-list-item-avatar> -->
         <v-spacer></v-spacer>
         <v-text-field
         v-model="search"
@@ -17,9 +18,9 @@
         ></v-text-field>
 
       <v-spacer></v-spacer>
-      <v-btn color="black" outlined @click="createMember(item)">
+      <!-- <v-btn color="black" outlined @click="createMember(item)">
         <v-icon color="black">mdi-account-plus</v-icon>
-      </v-btn>
+      </v-btn> -->
 
       </v-card-title>
       <v-data-table
@@ -30,31 +31,12 @@
         <template v-slot:[`item.actions`]="{item}">
           
           <v-btn 
-            icon small class="mr-2"
             @click="transaksiHandler(item)"
+            onstalled
+            outlined
             >   Aktivasi
             <!-- @click="dialogConfirm2 = true" -->
         </v-btn>
-
-        <!-- Dialog Confirm Transaksi -->
-        <!-- <v-dialog
-            v-model="dialogConfirm2"
-            persistent 
-            max-width="420px"
-          >
-          <v-card
-            color="white"
-          >
-          <v-card-title>
-            <span class="headline">Ingin Aktivasi Member ?</span>
-          </v-card-title>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="green" text @click="dialogConfirm2 = false"> Cancel </v-btn>
-            <v-btn color="red darken-1" text @click="transaksiHandler(item.id_member)"> Aktivasi </v-btn>
-          </v-card-actions>
-            </v-card>
-          </v-dialog> -->
 
         </template>
       </v-data-table>      
@@ -169,7 +151,7 @@
       <!-- Awal dari struk -->
       <div  width="600px" id="printtarget" style=" display: none; margin:500px;" class=" text-dark">
             <div width="600px" class="p-1 ">
-                <table class="border border-dark">
+                <table class="border">
                     <tr>
                         <td style="width: 70%;"><strong>Gofit</strong>
                         <p>Jl Centralpark No 10 Yogyakarta</p></td>
@@ -385,8 +367,6 @@ import { jsPDF } from "jspdf";
           console.log(item)
           console.log("Error")
           this.dialog = false;
-          // this.member = this.$router.push({name: 'MemberView'})
-            // router.push({name: "MemberView"})
         }
 
     },
@@ -396,17 +376,10 @@ import { jsPDF } from "jspdf";
     }
 }
 </script>
-<style scoped>
-  .member {
-    background: url('https://i.pinimg.com/564x/65/70/7d/65707df9bf6745c6cb950a22ff5295b9.jpg');
-    /* background: linear-gradient(
-      to right,
-      rgba(3, 12, 41, 0.75),
-      rgba(5, 11, 31, 0.65)
-    ); */
-  }
-  .memberstyle{
-    opacity: 0.8;
-  }
-  
-  </style>
+
+<style>
+.border{
+  border: 1px solid;
+  border-color: black;
+}
+</style>

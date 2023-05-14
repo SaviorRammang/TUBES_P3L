@@ -53,9 +53,6 @@
       >
       submit
     </v-btn>
-    <v-btn> 
-    clear
-  </v-btn>
   <v-dialog
     v-model="dialogConfirm2"
       persistent 
@@ -186,10 +183,9 @@ export default {
       promo: null,
     }),
 
-    computed: {
-    },
 
     methods: {
+
     submitForm(){
         this.dialogConfirm2 = true;
     },

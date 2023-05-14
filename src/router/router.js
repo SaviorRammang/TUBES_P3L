@@ -61,6 +61,11 @@ const router = new VueRouter({
           component: () => import("@/views/kasir/transaksi-aktivasi.vue"),
           name: "transaksi-aktivasi",
         },
+        {
+          path: "/kasir/member/sistem",
+          component: () => import("@/views/kasir/sistemKasir.vue"),
+          name: "Sistem-Kasir",
+        },
         // {
         //   path: "/kasir/member/mencetakMemberCard",
         //   component: ()=> import("@/views/kasir/mencetakMemberCard.vue"),
@@ -131,6 +136,11 @@ const router = new VueRouter({
             path: "/mo/jadwal-harian/index",
             component: () => import("@/views/mo/indexJadwalHarian.vue"),
             name: "Mo-Jadwal-Harian",
+          },
+          {
+            path: "/mo/ijin-instruktur/index",
+            component: () => import("@/views/mo/ijinInstrukturIndex.vue"),
+            name: "Mo-Ijin-Instruktur",
           },
         ]
       }

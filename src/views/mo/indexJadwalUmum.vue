@@ -135,18 +135,8 @@ export default {
       },
 
       deleteHandler(id){
-          // try{
-          //   this.dialogConfirm = true;
-          //     const url = `http://127.0.0.1:8000/api/jadwal_umum/${id}`
-          //     const request = await axios.delete(url);
-          //     alert(request.data.message)
-          //     this.getDataJadwalUmum();
-          // }catch{
-          //     alert('Gagal');
-          // }
         this.deleteId = id;
         this.dialogConfirm = true;
-          
       },
       deleteData(id) {
         console.log(id)
