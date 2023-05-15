@@ -37,7 +37,7 @@
               color="white"
             >
             <v-card-title>
-              <span class="headline">Ingin Mengedit Jadwal ?</span>
+              <span class="headline">Ingin Mengijinkan Instruktur ?</span>
             </v-card-title>
             <v-card-actions>
               <v-spacer></v-spacer>

@@ -4,6 +4,12 @@ import vuetify from "@/plugins/vuetify";
 import router from "./router/router";
 import axios from 'axios';
 import jsPDF from 'jspdf'
+// import 'toastr/build/toastr.min.css'
+// import 'toastr/build/toastr.min.js'
+// import Toastr from 'toastr/build/toastr.min.js';
+
+// import VueToast from 'vue-toastification';
+
 
 
 import 'mdi-icons/css/materialdesignicons.min.css';
@@ -17,5 +23,6 @@ new Vue({
   vuetify,
   router,
   jsPDF,
+  // Toastr,
   render: (h) => h(App),
 }).$mount('#app')
