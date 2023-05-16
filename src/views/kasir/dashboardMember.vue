@@ -74,6 +74,7 @@
           { title: "Transaksi-Deposit-Uang", to: "/kasir/member/transaksi-deposit-uang", icon: "mdi-currency-usd"},
           { title: "Transaksi-Aktivasi", to: "/kasir/member/transaksi-aktivasi", icon: "mdi-cash-multiple"},
           { title: "Sistem-Kasir", to: "/kasir/member/sistem", icon: "mdi-account-circle-outline"},
+          { title: "Reset-Paket-Kasir", to: "/kasir/member/depositreset", icon: "mdi-account-circle-outline"},
         ],
       };
     },

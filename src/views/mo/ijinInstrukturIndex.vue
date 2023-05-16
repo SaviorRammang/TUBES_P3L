@@ -63,6 +63,7 @@
     data () {
       return {
         dialogConfirm2: false,
+        snackbar: false,
         color: '',
         search: '',
         headers: [
@@ -98,16 +99,25 @@
             console.log(request.data.data)
             this.dataIzin=request.data.data
         },
-        
+
+        setData(item){
+            console.log(item);
+            this.selectedData = item;
+            this.dialogConfirm2 = true;
+          },
+
         async acceptHandler(item){
             const url = `http://127.0.0.1:8000/api/ijin_instruktur/${item.ijin_instruktur}`;
+            console.log(url)
             const request = await axios.put(url, {status_konfirmasi : "Telah Dikonfirmasi."})
+            this.snackbar = true;
             console.log(request.data.data)
             this.dialogConfirm2 = false;
             this.getDataIzin();
         },
         async rejectHandler(item){
             const url = `http://127.0.0.1:8000/api/ijin_instruktur/${item.ijin_instruktur}`;
+            console.log(url)
             const request = await axios.put(url, {status_konfirmasi : "Izin Ditolak."})
             console.log(request.data.data)
             this.dialogConfirm2 = false;
