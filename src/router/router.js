@@ -71,6 +71,11 @@ const router = new VueRouter({
           component: () => import("@/views/kasir/meresetDepositKasir.vue"),
           name: "Reset-Paket",
         },
+        {
+          path: "/kasir/member/presensi-gym-index",
+          component: () => import("@/views/kasir/presensi-gym-index"),
+          name: "Presensi-GYM",
+        },
         // {
         //   path: "/kasir/member/mencetakMemberCard",
         //   component: ()=> import("@/views/kasir/mencetakMemberCard.vue"),

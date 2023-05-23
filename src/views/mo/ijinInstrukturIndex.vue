@@ -42,8 +42,8 @@
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="green" text @click="dialogConfirm2 = false"> Cancel </v-btn>
-              <v-btn color="red darken-1" text @click="acceptHandler(item)"> Accept </v-btn>
-              <v-btn color="yellow darken-1" text @click="rejectHandler(item)"> Reject </v-btn>
+              <v-btn color="red darken-1" text @click="acceptHandler(item.ijin_instruktur)"> Accept </v-btn>
+              <v-btn color="yellow darken-1" text @click="rejectHandler(item.ijin_instruktur)"> Reject </v-btn>
             </v-card-actions>
               </v-card>
             </v-dialog>
@@ -75,6 +75,7 @@
           },
           { text: 'Nama Instruktur', value: 'instruktur.nama_instruktur' },
           { text: 'Instruktur Pengganti', value: 'instruktur_pengganti.nama_instruktur' },
+          { text: 'Tanggal Jadwal Harian', value: 'jadwal_harian.tanggal_jadwal_harian' },
           { text: 'Hari Izin', value: 'hari_izin' },
           { text: 'Tanggal Pengajuan Izin', value: 'tanggal_pengajuan_izin' },
           { text: 'Tanggal Izin', value: 'tanggal_izin' },
@@ -84,6 +85,7 @@
           { text: 'Aksi', value: 'actions' },
           
         ],
+        selectedData: '',
         editId: '',
         deleteId: '',
         dataIzin : ref([]),
@@ -101,13 +103,14 @@
         },
 
         setData(item){
-            console.log(item);
+            // console.log(item.ijin_instruktur);
             this.selectedData = item;
             this.dialogConfirm2 = true;
           },
 
         async acceptHandler(item){
-            const url = `http://127.0.0.1:8000/api/ijin_instruktur/${item.ijin_instruktur}`;
+            console.log(item.ijin_instruktur);
+            const url = `http://127.0.0.1:8000/api/ijin_instruktur/${this.selectedData.ijin_instruktur}`;
             console.log(url)
             const request = await axios.put(url, {status_konfirmasi : "Telah Dikonfirmasi."})
             this.snackbar = true;
@@ -116,7 +119,8 @@
             this.getDataIzin();
         },
         async rejectHandler(item){
-            const url = `http://127.0.0.1:8000/api/ijin_instruktur/${item.ijin_instruktur}`;
+            console.log(item.ijin_instruktur);
+            const url = `http://127.0.0.1:8000/api/ijin_instruktur/${this.selectedData.ijin_instruktur}`;
             console.log(url)
             const request = await axios.put(url, {status_konfirmasi : "Izin Ditolak."})
             console.log(request.data.data)
