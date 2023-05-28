@@ -1,11 +1,17 @@
 <template>
   <div>
     <div style="height: 815px" class="member">
-      <v-sheet class="mx-auto mt-15" style="padding:50px" max-width="800" color="white" elevation="10">
-        <form @submit.prevent="createMember" class="memberstyle" >
-          <h1>Tambah Member</h1>             
+      <v-sheet
+        class="mx-auto mt-15"
+        style="padding: 50px"
+        max-width="800"
+        color="white"
+        elevation="10"
+      >
+        <form @submit.prevent="createMember" class="memberstyle">
+          <h1>Tambah Member</h1>
           <!-- <v-btn outlined class="mr-2 red white--text" type="submit" @click="generatePDF()"> Cetak Member Card </v-btn> -->
-          
+
           <v-text-field
             v-model="Member.nama_member"
             label="Nama Member"
@@ -51,19 +57,14 @@
             label="Saldo Deposit"
             required
           ></v-text-field>
-         
-          <v-btn 
-            class="mr-1 blue white--text" 
-            type="submit" 
-            outlined
-            > Save </v-btn>
-            
-          <v-btn 
-            class="mr-1 red white--text" 
-            @click="batalMember" 
-            outlined
-            > Cancel </v-btn>
 
+          <v-btn class="mr-1 blue white--text" type="submit" outlined>
+            Save
+          </v-btn>
+
+          <v-btn class="mr-1 red white--text" @click="batalMember" outlined>
+            Cancel
+          </v-btn>
         </form>
       </v-sheet>
     </div>
@@ -73,31 +74,30 @@
 
 <script>
 /* eslint-disable */
-import { reactive } from "vue";
-import router from "../../router/router.js";
+import {reactive} from 'vue';
+import router from '../../router/router.js';
 // import { defaults } from "vue-router";
-import axios from "axios";
+import axios from 'axios';
 
 export default {
-  
   setup() {
     const Member = reactive({
-      id_member: "",
-      nama_member: "",
-      username_member: "",
-      tanggal_aktivasi_member: "",
-      no_telp_member: "",
-      email_member: "",
-      password_member:"",
-      alamat_member:"",
-      tanggal_aktivasi_member:"",
-      saldo_deposit_member:""
+      id_member: '',
+      nama_member: '',
+      username_member: '',
+      tanggal_aktivasi_member: '',
+      no_telp_member: '',
+      email_member: '',
+      password_member: '',
+      alamat_member: '',
+      tanggal_aktivasi_member: '',
+      saldo_deposit_member: '',
     });
     // const validation = ref([]);
     // const router = default/();
 
     function createMember() {
-      console.log("Fungsi Create Member");
+      console.log('Fungsi Create Member');
       let id_member = Member.id_member;
       let nama_member = Member.nama_member;
       let username_member = Member.username_member;
@@ -110,35 +110,34 @@ export default {
       let saldo_deposit_member = Member.saldo_deposit_member;
 
       axios
-        .post("http://127.0.0.1:8000/api/member", {
+        .post('http://127.0.0.1:8000/api/member', {
           id_member: id_member,
           nama_member: nama_member,
-          username_member : username_member,
-          tanggal_lahir_member : tanggal_lahir_member,
-          no_telp_member :no_telp_member,
-          email_member : email_member,
+          username_member: username_member,
+          tanggal_lahir_member: tanggal_lahir_member,
+          no_telp_member: no_telp_member,
+          email_member: email_member,
           password_member: password_member,
           alamat_member: alamat_member,
           tanggal_aktivasi_member: tanggal_aktivasi_member,
           saldo_deposit_member: saldo_deposit_member,
           // id_mahasiswa: id_mahasiswa
         })
-      .then(() => {
+        .then(() => {
           // this.snackbar = true;
-          alert("Berhasil Create");
-          router.push({ name: "MemberView" });
+          alert('Berhasil Create');
+          router.push({name: 'MemberView'});
         })
         .catch((error) => {
-          console.log(error.response.data)
-          alert("Gagal Create");
+          console.log(error.response.data);
+          alert('Gagal Create');
           // this.snackbar = true;
           validation.value = error.response.data;
         });
     }
-    function batalMember()
-    {
-      console.log("Batal Member")
-      router.push({name: "MemberView"})
+    function batalMember() {
+      console.log('Batal Member');
+      router.push({name: 'MemberView'});
     }
     // console.log(localStorage.getItem('token'))
 
@@ -152,7 +151,6 @@ export default {
       createMember,
       batalMember,
     };
-    
   },
 };
 </script>
@@ -166,8 +164,7 @@ export default {
     rgba(5, 11, 31, 0.65)
   ); */
 }
-.memberstyle{
+.memberstyle {
   opacity: 0.8;
 }
-
 </style>
