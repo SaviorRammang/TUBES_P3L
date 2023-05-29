@@ -153,6 +153,16 @@ const router = new VueRouter({
           component: () => import('@/views/mo/laporan-instruktur-bulanan.vue'),
           name: 'Mo-laporan-instruktur-bulanan',
         },
+        {
+          path: '/mo/laporan-gym-bulanan/index',
+          component: () => import('@/views/mo/laporan-gym-bulanan.vue'),
+          name: 'Mo-laporan-gym-bulanan',
+        },
+        {
+          path: '/mo/laporan-kelas-bulanan/index',
+          component: () => import('@/views/mo/laporan-kelas-bulanan.vue'),
+          name: 'Mo-laporan-gym-bulanan',
+        },
       ],
     },
   ],

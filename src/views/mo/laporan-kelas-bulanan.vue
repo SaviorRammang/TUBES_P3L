@@ -2,7 +2,7 @@
     <div>
       <v-card max>
         <v-card-title>
-          Laporan Kinerja Instruktur
+          Laporan Kelas Bulanan
           <v-spacer></v-spacer>
           <v-text-field
             v-model="search"
@@ -20,7 +20,7 @@
           :items="dataJadwal"
           :search="search"
         >
-          <template v-slot:[`item.actions`]="{ item }">
+        <template v-slot:[`item.actions`]="{ item }">
             <!-- Dialog Confirm -->
             <v-dialog
               v-model="dialogConfirm"
@@ -45,7 +45,7 @@
   </template>
   
   
-  <script>
+<script>
   
   import {  ref } from 'vue';
   import axios from 'axios';
@@ -60,10 +60,12 @@
         search: '',
         headers: [
 
-          { text: 'Nama Instruktur', value: 'nama_instruktur' },
-          { text: 'Jumlah Hadir', value: 'jumlah_hadir' },
-          { text: 'Jumlah Izin', value: 'jumlah_izin' },
-          { text: 'Jumlah Keterlambatan', value: 'jumlah_keterlambatan_instruktur' },
+          { text: 'Kelas', value: 'kelas' },
+          { text: 'Instruktur', value: 'instruktur' },
+          { text: 'Jumlah Peserta', value: 'jumlah_peserta_kelas'},
+          { text: 'Jumlah Libur' , value: 'jumlah_libur'}
+        //   { text: 'Jumlah Izin', value: 'jumlah_izin' },
+        //   { text: 'Jumlah Keterlambatan', value: 'jumlah_keterlambatan_instruktur' },
         //   { text: 'Aksi', value: 'actions' },
           
         ],
@@ -84,21 +86,20 @@
           
 
                 // Membuka jendela baru untuk mencetak konten
-                const printWindow = window.open('', '', 'width=800,height=600');
-                printWindow.document.open();
-                printWindow.document.write(`
+        const printWindow = window.open('', '', 'width=800,height=600');
+        printWindow.document.open();
+        printWindow.document.write(`
         <html>
         <head>
             <style>
-            /* Gaya khusus untuk mencetak */
             @media print {
                 /* Gaya untuk menyembunyikan elemen yang tidak perlu dicetak */
                 #printable {
-                visibility: visible;
-              }
+                    visibility: visible;
+                }
                 /* Gaya khusus lainnya sesuai kebutuhan Anda */
             }
-            table {
+        table {
             border-collapse: collapse;
             width: 100%;
         }
@@ -112,10 +113,8 @@
         th {
             background-color: #f2f2f2;
         }
-            </style>
+        </style>
         </head>
-        <title>Gofit</title>
-        <subtitle>Jl. Centralpark No. 10 Yogyakarta</subtitle>
         <body>
             <h1>Laporan Kinerja Instruktur</h1>
             <h2>Bulan: Mei   Tahun: 2023</h2>
@@ -123,19 +122,19 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Nama</th>
-                        <th>Jumlah Hadir</th>
+                        <th>Kelas</th>
+                        <th>Instruktur</th>
+                        <th>Jumlah Peserta</th>
                         <th>Jumlah Libur</th>
-                        <th>Waktu Terlambat (detik)</th>
                     </tr>
                 </thead>
                 <tbody>
                     ${this.dataJadwal.map(row => `
                         <tr>
-                            <td>${row.nama_instruktur}</td>
-                            <td>${row.jumlah_hadir}</td>
-                            <td>${row.jumlah_izin}</td>
-                            <td>${row.jumlah_keterlambatan_instruktur}</td>
+                            <td>${row.kelas}</td>
+                            <td>${row.instruktur}</td>
+                            <td>${row.jumlah_peserta_kelas}</td>
+                            <td>${row.jumlah_libur}</td>
                         </tr>
                     `).join('')}
                 </tbody>
@@ -143,20 +142,22 @@
         </body>
         </html>
     `);
-                    printWindow.document.close();
+        printWindow.document.close();
 
-                // console.log(printWindow);
-                // Tunggu beberapa saat sebelum mencetak untuk memastikan konten dimuat
-                setTimeout(() => {
-                printWindow.print();
-                printWindow.close();
-                }, 500);
-            },
-        async getDataLaporanInstruktur(){
-            const url = "http://127.0.0.1:8000/api/laporankinerjainstruktur";
+    // console.log(printWindow);
+// Tunggu beberapa saat sebelum mencetak untuk memastikan konten dimuat
+    setTimeout(() => {
+    printWindow.print();
+    printWindow.close();
+    }, 500);
+},
+        async getDataJadwalGymBulanan(){
+            const url = "http://127.0.0.1:8000/api/laporanaktivitaskelas";
             const request = await axios.get(url)
             console.log(request.data.data)
             this.dataJadwal=request.data.data
+            this.calculateTotalMember();
+
         },
         
         editHandler(item){
@@ -181,7 +182,7 @@
               this.snackbar = true;
               // this.load = false;
               // this.close();
-              this.getDataLaporanInstruktur();
+              this.getDataJadwalGymBulanan();
               // this.type = "Tambah";
             })
             .catch((error) => {
@@ -194,7 +195,7 @@
         
     },
     mounted (){
-        this.getDataLaporanInstruktur();
+        this.getDataJadwalGymBulanan();
     }
   }
   </script>

@@ -88,7 +88,10 @@
           { title: "Jadwal Umum", to:"/mo/jadwal-umum", icon:"mdi-calendar"},
           { title: "Jadwal Harian", to:"/mo/jadwal-harian/index", icon:"mdi-calendar-multiselect"},
           { title: "Izin Instruktur", to: "/mo/ijin-instruktur/index", icon: "mdi-account-check-outline"},
-          { title: "Laporan Instruktur Bulanan", to: "/mo/laporan-instruktur-bulanan/index", icon: "mdi-account-check-outline"}
+          { title: "Laporan Instruktur Bulanan", to: "/mo/laporan-instruktur-bulanan/index", icon: "mdi-account-check-outline"},
+          { title: "Laporan Aktivitas Gym Bulanan", to: "/mo/laporan-gym-bulanan/index", icon: "mdi-account-check-outline"},
+          { title: "Laporan Aktivitas Kelas Bulanan", to: "/mo/laporan-kelas-bulanan/index", icon: "mdi-account-check-outline"}
+
         ]
       };
     },
