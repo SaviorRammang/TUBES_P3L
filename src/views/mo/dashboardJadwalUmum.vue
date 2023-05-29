@@ -87,7 +87,8 @@
         itemMO: [
           { title: "Jadwal Umum", to:"/mo/jadwal-umum", icon:"mdi-calendar"},
           { title: "Jadwal Harian", to:"/mo/jadwal-harian/index", icon:"mdi-calendar-multiselect"},
-          { title: "Izin Instruktur", to: "/mo/ijin-instruktur/index", icon: "mdi-account-check-outline"}
+          { title: "Izin Instruktur", to: "/mo/ijin-instruktur/index", icon: "mdi-account-check-outline"},
+          { title: "Laporan Instruktur Bulanan", to: "/mo/laporan-instruktur-bulanan/index", icon: "mdi-account-check-outline"}
         ]
       };
     },

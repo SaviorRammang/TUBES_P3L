@@ -148,6 +148,11 @@ const router = new VueRouter({
           component: () => import('@/views/mo/ijinInstrukturIndex.vue'),
           name: 'Mo-Ijin-Instruktur',
         },
+        {
+          path: '/mo/laporan-instruktur-bulanan/index',
+          component: () => import('@/views/mo/laporan-instruktur-bulanan.vue'),
+          name: 'Mo-laporan-instruktur-bulanan',
+        },
       ],
     },
   ],
